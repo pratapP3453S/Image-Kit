@@ -18,13 +18,13 @@ export async function POST(req: NextRequest) {
     if (signature !== expectedSignature) {
       return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
     }
-
+    console.log("yes completed.")
     const event = JSON.parse(body);
     await connectToDatabase();
 
     if (event.event === "payment.captured") {
       const payment = event.payload.payment.entity;
-
+      console.log(payment);
       const order = await Order.findOneAndUpdate(
         { razorpayOrderId: payment.order_id },
         {
@@ -35,6 +35,7 @@ export async function POST(req: NextRequest) {
         { path: 'userId', select: 'email' },
         { path: 'productId', select: 'name amount razorpayOrderId' }, // Populate once with required fields
       ]);
+      console.log(order)
 
       if (order) {
         // Send email only after payment is confirmed

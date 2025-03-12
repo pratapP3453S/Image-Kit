@@ -29,7 +29,7 @@ export async function POST(req: NextRequest) {
         productId: productId.toString(),
       },
     });
-
+    console.log(order)
     const newOrder = await Order.create({
       userId: session.user.id,
       productId,
