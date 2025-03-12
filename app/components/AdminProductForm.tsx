@@ -27,7 +27,7 @@ export default function AdminProductForm() {
       variants: [
         {
           type: "SQUARE" as ImageVariantType,
-          price: 9.99,
+          price: 100,
           license: "personal",
         },
       ],
@@ -57,7 +57,7 @@ export default function AdminProductForm() {
       setValue("variants", [
         {
           type: "SQUARE" as ImageVariantType,
-          price: 9.99,
+          price: 100,
           license: "personal",
         },
       ]);
@@ -176,7 +176,7 @@ export default function AdminProductForm() {
         onClick={() =>
           append({
             type: "SQUARE" as ImageVariantType,
-            price: 9.99,
+            price: 100,
             license: "personal",
           })
         }
