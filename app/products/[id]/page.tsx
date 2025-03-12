@@ -76,7 +76,7 @@ export default function ProductPage() {
       const options = {
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
         amount,
-        currency: "USD",
+        currency: "INR",
         name: "ImageKit Shop",
         description: `${product.name} - ${variant.type} Version`,
         order_id: orderId,
