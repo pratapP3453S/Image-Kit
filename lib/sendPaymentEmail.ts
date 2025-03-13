@@ -1,9 +1,9 @@
-import { render } from "@react-email/render";
+// import { render } from "@react-email/render";
 import PaymentSuccessfulEmail from "@/emails/PaymentSuccessfulEmail";
 import PaymentUnuccessfulEmail from "@/emails/PaymentUnsuccessfulEmail";
 import RegisterSuccessfulEmail from "@/emails/RegisterSuccessfulEmail";
-import sgMail from "@sendgrid/mail";
-import { MailDataRequired } from "@sendgrid/helpers/classes/mail";
+// import sgMail from "@sendgrid/mail";
+// import { MailDataRequired } from "@sendgrid/helpers/classes/mail";
 import { Resend } from "resend";
 
 export const resend = new Resend(process.env.RESEND_API_KEY);
