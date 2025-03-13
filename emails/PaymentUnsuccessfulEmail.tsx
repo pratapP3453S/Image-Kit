@@ -2,12 +2,14 @@ import { Html, Head, Body, Container, Text, Link, Section, Button } from '@react
 
 interface PaymentUnsuccessfulEmailProps {
   email: string;
+  productName: string;
   amount: string;
   razorpayOrderId: string;
 }
 
 export default function PaymentUnuccessfulEmail({
   email,
+  productName,
   amount,
   razorpayOrderId,
 }: PaymentUnsuccessfulEmailProps) {
@@ -21,8 +23,8 @@ export default function PaymentUnuccessfulEmail({
           <Text style={headingStyle}>Payment Successful</Text>
           <Text style={textStyle}>Hi {email},</Text>
           <Text style={textStyle}>
-            Your payment of <strong>{amount}</strong> was failed. 
-            Below are the details of your transaction:
+          Your payment of <strong>{amount}</strong> for product <strong>{productName}</strong> was failed. Below are
+          the details of your transaction:
           </Text>
           <Section style={sectionStyle}>
             <Text style={textStyle}>

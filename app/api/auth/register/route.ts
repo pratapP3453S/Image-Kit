@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { connectToDatabase } from "@/lib/db";
 import User from "@/models/User";
+import { sendSuccessfulRegistrationEmail } from "@/lib/sendPaymentEmail";
 
 export async function POST(request: NextRequest) {
   try {
@@ -24,14 +25,21 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    await User.create({
-      email,
-      password,
-      role, 
-    });
+    // Create the user
+    const user = await User.create({ email, password, role });
+
+    // Send registration email
+    const emailResponse = await sendSuccessfulRegistrationEmail(email, password, role);
+
+    if (!emailResponse.success) {
+      return NextResponse.json(
+        { error: emailResponse.message || "Failed to send email" },
+        { status: 500 }
+      );
+    }
 
     return NextResponse.json(
-      { message: "User registered successfully" },
+      { message: "User registered successfully", user },
       { status: 201 }
     );
   } catch (error) {

@@ -1,38 +1,39 @@
 import { Html, Head, Body, Container, Text, Link, Section, Button } from '@react-email/components';
 
-interface PaymentSuccessfulEmailProps {
-  email: string;
-  productName: string;
-  amount: string;
-  razorpayOrderId: string;
+interface RegisterSuccessfulfulEmailProps {
+  to: string;
+  password: string;
+  role: string;
   // receiptUrl: string;
 }
 
-export default function PaymentSuccessfulEmail({
-  email,
-  productName,
-  amount,
-  razorpayOrderId,
-}: PaymentSuccessfulEmailProps) {
+export default function RegisterSuccessfulEmail({
+  to,
+  password,
+  role,
+}: RegisterSuccessfulfulEmailProps) {
   return (
     <Html>
       <Head>
-        <title>Payment Successful</title>
+        <title>Successful Registered</title>
       </Head>
       <Body style={bodyStyle}>
         <Container style={containerStyle}>
           <Text style={headingStyle}>Payment Successful</Text>
-          <Text style={textStyle}>Hi {email},</Text>
-          <Text style={textStyle}>
-            Your payment of <strong>{amount}</strong> for product <strong>{productName}</strong> was successful. Below are
+          <Text style={textStyle}>Hi {to},</Text>
+          {/* <Text style={textStyle}>
+            Your payment of <strong>{amount}</strong> was successful. Below are
             the details of your transaction:
+          </Text> */}
+          <Text style={textStyle}>
+          Thank you for registering with Image-Kit! We're thrilled to have you on board. 🚀
           </Text>
           <Section style={sectionStyle}>
             <Text style={textStyle}>
-              <strong>Transaction ID:</strong> {razorpayOrderId}
+              <strong>Your Password is: </strong> {password}
             </Text>
             <Text style={textStyle}>
-              <strong>Amount:</strong> {amount}
+              <strong>Role you selected: </strong> {role}
             </Text>
           </Section>
         </Container>

@@ -1,78 +1,71 @@
-import { render } from '@react-email/render';
-import PaymentSuccessfulEmail from '@/emails/PaymentSuccessfulEmail';
-import PaymentUnuccessfulEmail from '@/emails/PaymentUnsuccessfulEmail';
-import sgMail from '@sendgrid/mail';
-import { MailDataRequired } from '@sendgrid/helpers/classes/mail';
+import { render } from "@react-email/render";
+import PaymentSuccessfulEmail from "@/emails/PaymentSuccessfulEmail";
+import PaymentUnuccessfulEmail from "@/emails/PaymentUnsuccessfulEmail";
+import RegisterSuccessfulEmail from "@/emails/RegisterSuccessfulEmail";
+import sgMail from "@sendgrid/mail";
+import { MailDataRequired } from "@sendgrid/helpers/classes/mail";
+import { Resend } from "resend";
+
+export const resend = new Resend(process.env.RESEND_API_KEY);
 
 // Set the SendGrid API Key
-sgMail.setApiKey(process.env.SENDGRID_API_KEY!);
+// sgMail.setApiKey(process.env.SENDGRID_API_KEY!);
 
 export async function sendPaymentSuccessEmail(
   to: string,
-  email: string,
+  productName: string,
   amount: string,
-  razorpayOrderId: string,
+  razorpayOrderId: string
 ): Promise<any> {
-  // Render the React component to an HTML string
-  const html = render(
-    PaymentSuccessfulEmail({ email, amount, razorpayOrderId }),
-  );
-
-  // Define the email message
-  const msg: MailDataRequired = {
-    from: process.env.SENDER_EMAIL!, // Sender email address (must be verified in SendGrid)
-    to: to, // Recipient email address
-    subject: 'Payment Successful for Your Image | Image E-Comm', // Email subject
-    html: `${html}`, // Rendered HTML content
-  };
-
-  // Debugging: Log the message
-  console.log('Sending email with message:', msg);
-
   try {
-    // Send the email
-    await sgMail.send(msg);
-    console.log('Email sent successfully');
+    await resend.emails.send({
+      from: "onboarding@resend.dev",
+      to: to,
+      subject: "Payment Successful for Your Image | Image E-Comm",
+      react: PaymentSuccessfulEmail({ email: to, productName, amount, razorpayOrderId }),
+    });
+    return { success: true, message: "Payment email send successfully." };
   } catch (error: any) {
-    console.error('Error sending email:', error);
-    if (error.response) {
-      console.error('Error details:', error.response.body);
-    }
-    throw new Error('Failed to send email'); // Re-throw the error for handling in the calling function
+    console.log("Error sending email.", error);
+    return { success: false, message: "Failed to send email" };
   }
 }
 
 export async function sendPaymentUnsuccessEmail(
   to: string,
-  email: string,
+  productName: string,
   amount: string,
-  razorpayOrderId: string,
+  razorpayOrderId: string
 ): Promise<any> {
-  // Render the React component to an HTML string
-  const html = render(
-    PaymentUnuccessfulEmail({ email, amount, razorpayOrderId }),
-  );
-
-  // Define the email message
-  const msg: MailDataRequired = {
-    from: process.env.SENDER_EMAIL!, // Sender email address (must be verified in SendGrid)
-    to: to, // Recipient email address
-    subject: 'Payment Unsuccessful for Your Image | Image E-Comm', // Email subject
-    html: `${html}`, // Rendered HTML content
-  };
-
-  // Debugging: Log the message
-  console.log('Sending email with message:', msg);
-
   try {
-    // Send the email
-    await sgMail.send(msg);
-    console.log('Email sent successfully');
+    await resend.emails.send({
+      from: "onboarding@resend.dev",
+      to: to,
+      subject: "Payment Unsuccessful for Your Image | Image E-Comm",
+      react: PaymentUnuccessfulEmail({ email: to, productName, amount, razorpayOrderId }),
+    });
+    return { success: true, message: "Payment email send successfully." };
   } catch (error: any) {
-    console.error('Error sending email:', error);
-    if (error.response) {
-      console.error('Error details:', error.response.body);
-    }
-    throw new Error('Failed to send email'); // Re-throw the error for handling in the calling function
+    console.log("Error sending email.", error);
+    return { success: false, message: "Failed to send email" };
+  }
+}
+
+export async function sendSuccessfulRegistrationEmail(
+  to: string,
+  password: string,
+  role: string
+): Promise<any> {
+  try {
+    await resend.emails.send({
+      from: "onboarding@resend.dev",
+      to: to,
+      subject: "Test message | Image-Kit",
+      react: RegisterSuccessfulEmail({ to, password, role }),
+    });
+    return { success: true, message: "Verification email send successfully." };
+  } catch (emailError) {
+    console.log("Error sending verification email.", emailError);
+    return { success: false, message: "Failed to send verification email" };
   }
 }

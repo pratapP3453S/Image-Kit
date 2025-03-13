@@ -35,8 +35,7 @@ export async function POST(req: NextRequest) {
         { path: 'userId', select: 'email' },
         { path: 'productId', select: 'name amount razorpayOrderId' }, // Populate once with required fields
       ]);
-      console.log(order)
-
+      console.log(order);
       if (order) {
         // Send email only after payment is confirmed
         const emailResponse = await sendPaymentSuccessEmail(
