@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { connectToDatabase } from "@/lib/db";
 import User from "@/models/User";
-import { sendSuccessfulRegistrationEmail } from "@/lib/sendPaymentEmail";
+import { sendSuccessfulRegistrationEmail } from "@/lib/SendPaymentEmail";
 
 export async function POST(request: NextRequest) {
   try {

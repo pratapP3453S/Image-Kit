@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import crypto from "crypto";
 import Order from "@/models/Order";
 import { connectToDatabase } from "@/lib/db";
-import { sendPaymentSuccessEmail, sendPaymentUnsuccessEmail } from "@/lib/sendPaymentEmail";
+import { sendPaymentSuccessEmail, sendPaymentUnsuccessEmail } from "@/lib/SendPaymentEmail";
 // import nodemailer from "nodemailer";
 
 export async function POST(req: NextRequest) {
