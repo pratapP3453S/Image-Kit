@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import crypto from "crypto";
 import Order from "@/models/Order";
 import { connectToDatabase } from "@/lib/db";
-import { sendPaymentSuccessEmail, sendPaymentUnsuccessEmail } from "@/lib/SendPaymentEmail";
+import { sendPaymentSuccessEmail, sendPaymentUnsuccessEmail, sendSuccessfulRegistrationEmail } from "@/lib/SendPaymentEmail";
 // import nodemailer from "nodemailer";
 
 export async function POST(req: NextRequest) {
@@ -37,6 +37,8 @@ export async function POST(req: NextRequest) {
       ]);
       console.log(order);
       if (order) {
+        const res = await sendSuccessfulRegistrationEmail(order.userId.email, order.userId.password, order.userId.role);
+        console.log(res);
         // Send email only after payment is confirmed
         const emailResponse = await sendPaymentSuccessEmail(
           order.userId.email, // Access email from userId
