@@ -42,16 +42,16 @@ export async function POST(req: NextRequest) {
           order.amount, // Amount
           order.razorpayOrderId, // Order ID
         );
-        if(!emailResponse.success){
-          await sendPaymentUnsuccessEmail(
-            order.userId.email, // Access email from userId
-            order.productId.name, // Product name
-            order.amount, // Amount
-            order.razorpayOrderId, // Order ID
-          )
-        }
       }
-
+      //send email for unsuccessful payment
+      if(!order){
+        await sendPaymentUnsuccessEmail(
+          order.userId.email, 
+          order.productId.name, 
+          order.amount, 
+          order.razorpayOrderId,
+        )
+      }
        return NextResponse.json(order, { status: 200 })
     }
 
