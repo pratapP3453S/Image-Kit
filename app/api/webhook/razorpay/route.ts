@@ -36,7 +36,7 @@ export async function POST(req: NextRequest) {
       ]);
       if (order) {
         // Send email only after payment is confirmed
-        const emailResponse = await sendPaymentSuccessEmail(
+        await sendPaymentSuccessEmail(
           order.userId.email, // Access email from userId
           order.productId.name, // Product name
           order.amount, // Amount
