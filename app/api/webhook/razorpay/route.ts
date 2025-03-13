@@ -24,7 +24,6 @@ export async function POST(req: NextRequest) {
 
     if (event.event === "payment.captured") {
       const payment = event.payload.payment.entity;
-      console.log(payment);
       const order = await Order.findOneAndUpdate(
         { razorpayOrderId: payment.order_id },
         {
@@ -35,22 +34,19 @@ export async function POST(req: NextRequest) {
         { path: 'userId', select: 'email' },
         { path: 'productId', select: 'name amount razorpayOrderId' }, // Populate once with required fields
       ]);
-      console.log(order);
       if (order) {
-        const res = await sendSuccessfulRegistrationEmail(order.userId.email, order.userId.password, order.userId.role);
-        console.log(res);
         // Send email only after payment is confirmed
         const emailResponse = await sendPaymentSuccessEmail(
           order.userId.email, // Access email from userId
           order.productId.name, // Product name
-          order.productId.amount, // Amount
+          order.amount, // Amount
           order.razorpayOrderId, // Order ID
         );
         if(!emailResponse.success){
           await sendPaymentUnsuccessEmail(
             order.userId.email, // Access email from userId
             order.productId.name, // Product name
-            order.productId.amount, // Amount
+            order.amount, // Amount
             order.razorpayOrderId, // Order ID
           )
         }

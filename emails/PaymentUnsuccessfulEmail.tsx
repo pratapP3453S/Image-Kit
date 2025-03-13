@@ -3,7 +3,7 @@ import { Html, Head, Body, Container, Text, Link, Section, Button } from '@react
 interface PaymentUnsuccessfulEmailProps {
   email: string;
   productName: string;
-  amount: string;
+  amount: number;
   razorpayOrderId: string;
 }
 

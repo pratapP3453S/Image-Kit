@@ -14,7 +14,7 @@ export const resend = new Resend(process.env.RESEND_API_KEY);
 export async function sendPaymentSuccessEmail(
   to: string,
   productName: string,
-  amount: string,
+  amount: number,
   razorpayOrderId: string
 ): Promise<any> {
   try {
@@ -34,7 +34,7 @@ export async function sendPaymentSuccessEmail(
 export async function sendPaymentUnsuccessEmail(
   to: string,
   productName: string,
-  amount: string,
+  amount: number,
   razorpayOrderId: string
 ): Promise<any> {
   try {
@@ -69,4 +69,3 @@ export async function sendSuccessfulRegistrationEmail(
     return { success: false, message: "Failed to send verification email" };
   }
 }
-// hello world - it is just retrying the deployment
